@@ -289,4 +289,45 @@ codeunit 50130 "SEM Seminar Mgt. Event Sub."
         end;
     end;
 
+    [EventSubscriber(ObjectType::Table, Database::"SEM Seminar Journal Line", 'OnBeforeEmptyLine', '', true, false)]
+    local procedure SemJnlLineOnBeforeEmptyLine(SemJnlLine: Record "SEM Seminar Journal Line"; var Result: Boolean; var IsHandled: Boolean)
+    begin
+        IsHandled := true;
+        Result := ((SemJnlLine."Seminar No." = '') and (SemJnlLine."Total Price" = 0));
+    end;
+
+    [EventSubscriber(ObjectType::Table, Database::"SEM Seminar Ledger Entry", 'OnAfterCopySemLedgerEntryFromSemJnlLine', '', true, false)]
+    local procedure SemLedgerEntryOnAfterCopySemLedgerEntryFromSemJnlLine(var SemLedgerEntry: Record "SEM Seminar Ledger Entry"; var SemJnlLine: Record "SEM Seminar Journal Line")
+    begin
+        with SemLedgerEntry do begin
+            "Entry Type" := SemJnlLine."Entry Type";
+            "Bill-to Customer No." := SemJnlLine."Bill-to Customer No.";
+            "Charge Type" := SemJnlLine."Charge Type";
+            Quantity := SemJnlLine.Quantity;
+            "Unit Price" := SemJnlLine."Unit Price";
+            "Total Price" := SemJnlLine."Total Price";
+            "Participant Contact No." := SemJnlLine."Participant Contact No.";
+            "Participant Name" := SemJnlLine."Participant Name";
+            Chargeable := SemJnlLine.Chargeable;
+            "Seminar Room Code" := SemJnlLine."Seminar Room Code";
+            "Instructor Code" := SemJnlLine."Instructor Code";
+            "Starting Date" := SemJnlLine."Starting Date";
+            "Seminar Registration No." := SemJnlLine."Seminar Registration No.";
+            "Res. Ledger Entry No." := SemJnlLine."Res. Ledger Entry No.";
+            "Source Type" := SemJnlLine."Source Type";
+        end;
+    end;
+
+    [EventSubscriber(ObjectType::Table, Database::"SEM Sem. Reg. Line", 'OnAfterInitRecord', '', true, false)]
+    local procedure SemRegLineOnAfterInitRecord(var SemRegLine: Record "SEM Sem. Reg. Line"; var SemRegHeader: Record "SEM Sem. Reg. Header")
+    begin
+        with SemRegLine do begin
+            If "Registration Date" = 0D then
+                "Registration Date" := WorkDate();
+
+            Validate("Seminar Price", SemRegHeader."Seminar Price");
+            "External Document No." := SemRegHeader."External Document No.";
+        end;
+    end;
+
 }
