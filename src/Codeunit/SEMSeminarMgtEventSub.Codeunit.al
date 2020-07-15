@@ -327,6 +327,7 @@ codeunit 50130 "SEM Seminar Mgt. Event Sub."
 
             Validate("Seminar Price", SemRegHeader."Seminar Price");
             "External Document No." := SemRegHeader."External Document No.";
+            "To Invoice" := true;
         end;
     end;
 
