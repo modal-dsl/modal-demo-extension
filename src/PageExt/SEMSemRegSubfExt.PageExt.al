@@ -1,4 +1,4 @@
-pageextension 50131 "SEM Sem. Reg. Line Subf. Ext." extends "SEM Sem. Reg. Line Subf."
+pageextension 50131 "SEM Sem. Reg. Line Subf. Ext." extends "SEM Sem. Reg. Subf."
 {
     layout
     {

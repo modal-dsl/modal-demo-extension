@@ -9,5 +9,9 @@ pageextension 50130 "SEM Seminar Reg. Ext." extends "SEM Seminar Registration"
                 ApplicationArea = All;
             }
         }
+        modify(Status)
+        {
+            Editable = true;
+        }
     }
 }

@@ -1,4 +1,4 @@
-pageextension 50133 "SEM Pstd. S. R. L. Subf. Ext." extends "SEM Pstd. Sem. Reg. Line Subf."
+pageextension 50133 "SEM Pstd. S. R. L. Subf. Ext." extends "SEM Posted Sem. Reg. Subf."
 {
     layout
     {
