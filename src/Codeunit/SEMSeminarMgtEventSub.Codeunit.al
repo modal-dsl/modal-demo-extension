@@ -1,12 +1,12 @@
 codeunit 50130 "SEM Seminar Mgt. Event Sub."
 {
     var
-        LastResEntryNo: Integer;
+        SemExtMgt: Codeunit "SEM Seminar Extensions Mgt.";
 
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Res. Jnl.-Post Line", 'OnBeforeResLedgEntryInsert', '', true, false)]
     local procedure ResJnlPostLineOnBeforeResLedgEntryInsert(var ResLedgerEntry: Record "Res. Ledger Entry"; ResJournalLine: Record "Res. Journal Line")
     begin
-        LastResEntryNo := ResLedgerEntry."Entry No.";
+        SemExtMgt.SetLastResEntryNo(ResLedgerEntry."Entry No.");
     end;
 
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"SEM Seminar-Post", 'OnPostHeader', '', true, false)]
@@ -87,8 +87,8 @@ codeunit 50130 "SEM Seminar Mgt. Event Sub."
             SeminarJnlLine."Document No." := PstdSeminarRegHeader."No.";
             SeminarJnlLine."Starting Date" := "Starting Date";
             SeminarJnlLine."Seminar Registration No." := "No.";
-            SeminarJnlLine."Res. Ledger Entry No." := LastResEntryNo;
-            LastResEntryNo := 0;
+            SeminarJnlLine."Res. Ledger Entry No." := SemExtMgt.GetLastResEntryNo();
+            SemExtMgt.SetLastResEntryNo(0);
             SeminarJnlLine."Source Type" := SeminarJnlLine."Source Type"::"Seminar Registration";
             SeminarJnlLine."Source No." := "Seminar No.";
             SeminarJnlLine."Source Code" := SrcCode;

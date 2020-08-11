@@ -1,8 +1,12 @@
 codeunit 50131 "SEM Seminar Extensions Mgt."
 {
+
+    SingleInstance = true;
+
     var
         NotLessErr: Label 'must not be less than %1';
         NotGreaterErr: Label 'must not be greater than %1';
+        LastResEntryNo: Integer;
 
     procedure CheckMinValue(FldRef: FieldRef; ActualValue: Decimal; MinValue: Decimal)
     begin
@@ -20,6 +24,16 @@ codeunit 50131 "SEM Seminar Extensions Mgt."
     begin
         if (OtherValue <> 0) and (CurrentValue < OtherValue) then
             CurrentFldRef.FieldError(StrSubstNo(NotLessErr, OtherFldRef.Caption));
+    end;
+
+    procedure SetLastResEntryNo(EntryNo: Integer)
+    begin
+        LastResEntryNo := EntryNo;
+    end;
+
+    procedure GetLastResEntryNo(): Integer
+    begin
+        exit(LastResEntryNo);
     end;
 
 }
